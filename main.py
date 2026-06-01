@@ -17,10 +17,12 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 # Repository details
 REPO_OWNER = "ecmwf"
 
+
 # Load the GitHub-to-organization mapping
 def load_github_to_org_mapping():
     with open("github_to_org.json", "r") as f:
         return json.load(f)
+
 
 def load_email_to_org_mapping():
     """Load the manually maintained email-to-organisation cache."""
@@ -30,9 +32,11 @@ def load_email_to_org_mapping():
     except FileNotFoundError:
         return {}
 
+
 def hash_email(email):
     """Normalise and hash an email address so we never store the plaintext on disk."""
     return hashlib.sha256(email.lower().strip().encode("utf-8")).hexdigest()
+
 
 def resolve_coauthors(commit_message, email_to_org):
     """Extract Co-authored-by contributors from a commit message.
@@ -67,22 +71,29 @@ def resolve_coauthors(commit_message, email_to_org):
         orgs.add("Unknown")
     return logins, orgs
 
+
 def aggregate_by_organization(user_contributions, github_to_org):
     """Aggregate contributions by organization."""
     org_contributions = Counter()
     for user, count in user_contributions.items():
-        org = github_to_org.get(user, "Unknown")  # Default to "Unknown" if user not in mapping
+        org = github_to_org.get(
+            user, "Unknown"
+        )  # Default to "Unknown" if user not in mapping
         if org == "Unknown" and user not in github_to_org:
-            print(f"Unknown GitHub user: {user}")  # Print unknown users for future assignment
+            print(
+                f"Unknown GitHub user: {user}"
+            )  # Print unknown users for future assignment
             github_to_org[user] = "Unknown"
         org_contributions[org] += count
     return org_contributions
+
 
 def get_contributors(repo):
     """Fetch contributors from the GitHub repository using PyGithub."""
     # Fetch contributors
     contributors = repo.get_contributors()
     return contributors
+
 
 def get_issues_last_n_months(repo, github_to_org, months):
     """Fetch issues created in the last N months and aggregate by organization."""
@@ -98,7 +109,20 @@ def get_issues_last_n_months(repo, github_to_org, months):
     org_issue_count = aggregate_by_organization(user_issue_count, github_to_org)
     return org_issue_count
 
-PR_TYPE_PREFIXES = ("feat", "fix", "chore", "docs", "refactor", "test", "ci", "perf", "build", "style")
+
+PR_TYPE_PREFIXES = (
+    "feat",
+    "fix",
+    "chore",
+    "docs",
+    "refactor",
+    "test",
+    "ci",
+    "perf",
+    "build",
+    "style",
+)
+
 
 def classify_pr_type(title):
     """Categorise a PR by its Conventional Commits prefix in the title."""
@@ -108,6 +132,7 @@ def classify_pr_type(title):
         if re.match(rf"{prefix}\s*(\([^)]*\))?\s*!?:", t):
             return prefix
     return "other"
+
 
 def get_pull_requests_last_n_months(repo, github_to_org, email_to_org, months):
     """Fetch merged pull requests in the last N months.
@@ -133,7 +158,9 @@ def get_pull_requests_last_n_months(repo, github_to_org, email_to_org, months):
         for commit in pr.get_commits():
             if commit.author:
                 authors.add(commit.author.login)
-            coauthor_logins, coauthor_orgs = resolve_coauthors(commit.commit.message, email_to_org)
+            coauthor_logins, coauthor_orgs = resolve_coauthors(
+                commit.commit.message, email_to_org
+            )
             authors |= coauthor_logins
             direct_orgs |= coauthor_orgs
 
@@ -156,6 +183,7 @@ def get_pull_requests_last_n_months(repo, github_to_org, email_to_org, months):
 
     return org_pr_count, org_pr_count_by_type
 
+
 def get_reviews_last_n_months(repo, github_to_org, months):
     """
     Fetch code reviews performed in the last N months and calculate both:
@@ -169,7 +197,9 @@ def get_reviews_last_n_months(repo, github_to_org, months):
     user_unique_review_count = Counter()
 
     for pr in pulls:
-        if pr.created_at >= three_months_ago:  # Only consider PRs created in the last 3 months
+        if (
+            pr.created_at >= three_months_ago
+        ):  # Only consider PRs created in the last 3 months
             reviews = pr.get_reviews()
             users_reviewed = set()  # Track users who have reviewed this PR
             for review in reviews:
@@ -182,10 +212,15 @@ def get_reviews_last_n_months(repo, github_to_org, months):
                         users_reviewed.add(review.user.login)
 
     # Aggregate both by organization
-    org_total_review_count = aggregate_by_organization(user_total_review_count, github_to_org)
-    org_unique_review_count = aggregate_by_organization(user_unique_review_count, github_to_org)
+    org_total_review_count = aggregate_by_organization(
+        user_total_review_count, github_to_org
+    )
+    org_unique_review_count = aggregate_by_organization(
+        user_unique_review_count, github_to_org
+    )
 
     return org_total_review_count, org_unique_review_count
+
 
 def main(REPO_NAME, g, github_to_org, email_to_org, months):
     # Get the repository
@@ -197,13 +232,19 @@ def main(REPO_NAME, g, github_to_org, email_to_org, months):
 
     # Fetch issues created in the last N months
     org_issue_count = get_issues_last_n_months(repo, github_to_org, months)
-    print(f"\nIssues created in {REPO_NAME} in the last {months} months by Organization (sorted):")
+    print(
+        f"\nIssues created in {REPO_NAME} in the last {months} months by Organization (sorted):"
+    )
     for org, count in org_issue_count.most_common():
         print(f"- {org}: {count} issues")
 
     # Fetch PRs created in the last N months
-    org_pr_count, org_pr_count_by_type = get_pull_requests_last_n_months(repo, github_to_org, email_to_org, months)
-    print(f"\nPull Requests merged in {REPO_NAME} in the last {months} months by Organization (sorted):")
+    org_pr_count, org_pr_count_by_type = get_pull_requests_last_n_months(
+        repo, github_to_org, email_to_org, months
+    )
+    print(
+        f"\nPull Requests merged in {REPO_NAME} in the last {months} months by Organization (sorted):"
+    )
     for org, count in org_pr_count.most_common():
         print(f"- {org}: {count} PRs")
 
@@ -213,12 +254,18 @@ def main(REPO_NAME, g, github_to_org, email_to_org, months):
         print(f"- {pr_type}: {total} PRs")
 
     # Fetch reviews performed in the last N months
-    org_total_review_count, org_unique_review_count = get_reviews_last_n_months(repo, github_to_org, months)
-    print(f"\nCode Reviews performed in {REPO_NAME} in the last {months} months by Organization (sorted):")
+    org_total_review_count, org_unique_review_count = get_reviews_last_n_months(
+        repo, github_to_org, months
+    )
+    print(
+        f"\nCode Reviews performed in {REPO_NAME} in the last {months} months by Organization (sorted):"
+    )
     for org, count in org_total_review_count.most_common():
         print(f"- {org}: {count} total reviews")
 
-    print(f"\nUnique Code Reviews by Organization in {REPO_NAME} in the last {months} months (sorted):")
+    print(
+        f"\nUnique Code Reviews by Organization in {REPO_NAME} in the last {months} months (sorted):"
+    )
     for org, count in org_unique_review_count.most_common():
         print(f"- {org}: {count} unique reviews")
 
@@ -230,19 +277,31 @@ def main(REPO_NAME, g, github_to_org, email_to_org, months):
         "unique_reviews": dict(org_unique_review_count),
     }
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Collect Anemoi contributor statistics.")
-    parser.add_argument("--months", type=int, default=6,
-                        help="Number of months of history to analyse (default: 3)")
+    parser = argparse.ArgumentParser(
+        description="Collect Anemoi contributor statistics."
+    )
+    parser.add_argument(
+        "--months",
+        type=int,
+        default=6,
+        help="Number of months of history to analyse (default: 3)",
+    )
     args = parser.parse_args()
 
     g = Github(GITHUB_TOKEN)
     github_to_org = load_github_to_org_mapping()
     email_to_org = load_email_to_org_mapping()
 
-    repo_list = ["anemoi", "anemoi-core", "anemoi-datasets",
-                 "anemoi-inference", "anemoi-transform",
-                 "anemoi-utils"]
+    repo_list = [
+        "anemoi",
+        "anemoi-core",
+        "anemoi-datasets",
+        "anemoi-inference",
+        "anemoi-transform",
+        "anemoi-utils",
+    ]
 
     results = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -250,16 +309,22 @@ if __name__ == "__main__":
         "repos": {},
     }
     for REPO_NAME in repo_list:
-        results["repos"][REPO_NAME] = main(REPO_NAME, g, github_to_org, email_to_org, args.months)
+        results["repos"][REPO_NAME] = main(
+            REPO_NAME, g, github_to_org, email_to_org, args.months
+        )
 
-    with open("results.json", "w") as f:
+    # Write data directly into docs/data/ (served by GitHub Pages)
+    data_dir = os.path.join("docs", "data")
+    history_dir = os.path.join(data_dir, "history")
+    os.makedirs(history_dir, exist_ok=True)
+
+    with open(os.path.join(data_dir, "latest.json"), "w") as f:
         json.dump(results, f, indent=2)
-    print("\nResults saved to results.json")
+    print("\nResults saved to docs/data/latest.json")
 
     # Archive a dated snapshot so we can build a time series across runs
-    os.makedirs("history", exist_ok=True)
     snapshot_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    snapshot_path = f"history/results-{snapshot_date}.json"
+    snapshot_path = os.path.join(history_dir, f"{snapshot_date}.json")
     with open(snapshot_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"Snapshot archived to {snapshot_path}")

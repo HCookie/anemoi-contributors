@@ -32,14 +32,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: pip
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Regenerate dashboard assets
-        # plot.py copies results.json + history/* into docs/data/ and writes
-        # the SPA shell. Safe to run on every deploy; needs no GitHub token.
+      - name: Regenerate manifest
+        # plot.py scans docs/data/ and writes manifest.json.
+        # Only uses stdlib -- no pip install needed.
         run: python plot.py
 
       - name: Upload Pages artifact

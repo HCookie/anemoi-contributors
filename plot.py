@@ -1,33 +1,29 @@
-"""Build data files for the Anemoi Contributors dashboard.
+"""Generate the manifest for the Anemoi Contributors dashboard.
 
-The dashboard itself lives as static source files under ``docs/``
-(``index.html``, ``assets/styles.css``, ``assets/app.js`` and the per-section
-modules in ``assets/*_module.js``). This script only manages the *data* the
-front-end fetches at runtime:
+Data files (``latest.json`` and ``history/*.json``) are written directly
+by ``main.py`` into ``docs/data/``.  This script scans what is present
+and writes ``docs/data/manifest.json`` so the SPA knows which snapshots
+are available.
 
-1. Copies ``results.json`` → ``docs/data/latest.json``.
-2. Copies each ``history/results-<date>.json`` → ``docs/data/history/<date>.json``.
-3. Writes ``docs/data/manifest.json`` so the SPA knows which dates exist.
-
-Running this script will not touch the HTML/CSS/JS — edit those files directly.
+Running this script will not touch the HTML/CSS/JS -- edit those files
+directly.
 """
 
 import glob
 import json
 import os
 import re
-import shutil
 from datetime import datetime, timezone
 
-DOCS_DIR = "docs"
-DATA_DIR = os.path.join(DOCS_DIR, "data")
+DATA_DIR = os.path.join("docs", "data")
 HISTORY_DIR = os.path.join(DATA_DIR, "history")
+LATEST_PATH = os.path.join(DATA_DIR, "latest.json")
 
 
-def _latest_date_from(results_path: str) -> str:
-    """Use the ``generated_at`` from the results blob (YYYY-MM-DD) if possible."""
+def _date_from_latest() -> str:
+    """Extract the snapshot date (YYYY-MM-DD) from ``latest.json``."""
     try:
-        with open(results_path) as f:
+        with open(LATEST_PATH) as f:
             blob = json.load(f)
         return blob.get("generated_at", "")[:10] or datetime.now(timezone.utc).strftime(
             "%Y-%m-%d"
@@ -36,35 +32,25 @@ def _latest_date_from(results_path: str) -> str:
         return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
-def prepare_data_files():
-    os.makedirs(HISTORY_DIR, exist_ok=True)
+def build_manifest():
+    """Scan ``docs/data/`` and write ``manifest.json``."""
+    if not os.path.exists(LATEST_PATH):
+        raise FileNotFoundError(f"{LATEST_PATH} not found -- run main.py first.")
 
-    # 1. Latest snapshot
-    if not os.path.exists("results.json"):
-        raise FileNotFoundError(
-            "results.json not found in repo root — run main.py first."
-        )
-    shutil.copyfile("results.json", os.path.join(DATA_DIR, "latest.json"))
-    latest_date = _latest_date_from("results.json")
-    print("✓ Copied results.json → docs/data/latest.json")
+    latest_date = _date_from_latest()
 
-    # 2. History snapshots
+    # Collect history dates from docs/data/history/<date>.json
     history_dates = []
-    for path in sorted(glob.glob("history/results-*.json")):
-        m = re.search(r"results-(\d{4}-\d{2}-\d{2})\.json$", path)
-        if not m:
-            continue
-        date = m.group(1)
-        shutil.copyfile(path, os.path.join(HISTORY_DIR, f"{date}.json"))
-        history_dates.append(date)
+    for path in sorted(glob.glob(os.path.join(HISTORY_DIR, "*.json"))):
+        m = re.search(r"(\d{4}-\d{2}-\d{2})\.json$", path)
+        if m:
+            history_dates.append(m.group(1))
     history_dates.sort(reverse=True)  # newest first
-    print(f"✓ Copied {len(history_dates)} history snapshot(s) → docs/data/history/")
 
-    # Ensure the latest date is in the history list (the SPA expects it).
+    # Ensure latest date appears in the history list (the SPA expects it).
     if latest_date and latest_date not in history_dates:
         history_dates.insert(0, latest_date)
 
-    # 3. Manifest
     manifest = {
         "latest": latest_date,
         "history": history_dates,
@@ -72,7 +58,7 @@ def prepare_data_files():
     }
     with open(os.path.join(DATA_DIR, "manifest.json"), "w") as f:
         json.dump(manifest, f, indent=2)
-    print("✓ Wrote docs/data/manifest.json")
+    print(f"✓ Wrote {DATA_DIR}/manifest.json")
 
     return latest_date, history_dates
 
@@ -98,8 +84,8 @@ def verify_static_assets():
 
 
 if __name__ == "__main__":
-    print("Building Anemoi Contributors Dashboard data…\n")
-    latest_date, history_dates = prepare_data_files()
+    print("Building Anemoi Contributors Dashboard manifest…\n")
+    latest_date, history_dates = build_manifest()
     verify_static_assets()
     print("\n" + "=" * 60)
     print("✓ Build complete")
