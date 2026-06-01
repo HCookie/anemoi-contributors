@@ -34,9 +34,9 @@ jobs:
           python-version: "3.11"
 
       - name: Regenerate manifest
-        # plot.py scans docs/data/ and writes manifest.json.
+        # build_manifest.py scans docs/data/ and writes manifest.json.
         # Only uses stdlib -- no pip install needed.
-        run: python plot.py
+        run: python build_manifest.py
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -136,54 +136,7 @@ window.TYPES_MODULE = (() => {
           color: var(--fg-2);
           font-style: italic;
         }
-        .types-mod-balance-bar {
-          display: flex;
-          align-items: center;
-          margin-bottom: 8px;
-        }
-        .types-mod-balance-label {
-          width: 120px;
-          font-size: 0.9rem;
-          font-weight: 500;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .types-mod-balance-track {
-          flex: 1;
-          height: 24px;
-          display: flex;
-          position: relative;
-          background: var(--bg-tint);
-          border-radius: 4px;
-          overflow: hidden;
-        }
-        .types-mod-balance-feat,
-        .types-mod-balance-fix {
-          height: 100%;
-          transition: width 0.3s ease;
-        }
-        .types-mod-balance-feat {
-          background: #16a34a;
-        }
-        .types-mod-balance-fix {
-          background: #dc2626;
-        }
-        .types-mod-balance-midline {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: var(--fg-1);
-          opacity: 0.5;
-        }
-        .types-mod-balance-count {
-          width: 80px;
-          text-align: right;
-          font-size: 0.85rem;
-          color: var(--fg-2);
-        }
+
       </style>
       
       <div class="card">
@@ -235,11 +188,6 @@ window.TYPES_MODULE = (() => {
             <div id="types-mod-chart-heatmap" class="types-mod-chart"></div>
           </div>
           
-          <!-- 6. Feat vs Fix balance -->
-          <div class="types-mod-subcard">
-            <h3>Feature vs Fix Balance (Innovators vs Stabilizers)</h3>
-            <div id="types-mod-balance-container"></div>
-          </div>
         </div>
       </div>
     `;
@@ -342,7 +290,6 @@ window.TYPES_MODULE = (() => {
     renderTrendsChart(ctx);
     renderRepoBreakdown(ctx);
     renderHeatmapChart(ctx);
-    renderBalanceChart(ctx);
   }
 
   // ============================================================================
@@ -799,55 +746,6 @@ window.TYPES_MODULE = (() => {
     };
 
     charts.heatmap.setOption(option, { notMerge: true });
-  }
-
-  // ============================================================================
-  // 6. Feat vs Fix balance chart
-  // ============================================================================
-
-  function renderBalanceChart(ctx) {
-    const container = document.getElementById('types-mod-balance-container');
-    if (!container) return;
-
-    const orgs = getFilteredOrgs(ctx);
-    const prTypeData = getPRTypeData(ctx, ctx.state.repo);
-
-    // Calculate feat+fix totals per org
-    const balances = orgs.map(org => {
-      const feat = prTypeData.feat?.[org] || 0;
-      const fix = prTypeData.fix?.[org] || 0;
-      const total = feat + fix;
-      return { org, feat, fix, total };
-    }).filter(b => b.total >= 3);
-
-    // Sort by total descending
-    balances.sort((a, b) => b.total - a.total);
-
-    // Render as HTML bars
-    container.innerHTML = '';
-
-    if (balances.length === 0) {
-      container.innerHTML = '<div class="types-mod-placeholder">No organisations with sufficient feat+fix data</div>';
-      return;
-    }
-
-    balances.forEach(({ org, feat, fix, total }) => {
-      const featPct = (feat / total * 100);
-      const fixPct = (fix / total * 100);
-
-      const bar = document.createElement('div');
-      bar.className = 'types-mod-balance-bar';
-      bar.innerHTML = `
-        <div class="types-mod-balance-label" title="${org}">${org}</div>
-        <div class="types-mod-balance-track">
-          <div class="types-mod-balance-feat" style="width: ${featPct}%"></div>
-          <div class="types-mod-balance-fix" style="width: ${fixPct}%"></div>
-          <div class="types-mod-balance-midline"></div>
-        </div>
-        <div class="types-mod-balance-count">${feat}/${fix}</div>
-      `;
-      container.appendChild(bar);
-    });
   }
 
   // ============================================================================
