@@ -495,16 +495,6 @@ html, body {
   padding: var(--space-6) var(--space-6) var(--space-9);
 }
 
-.summary-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background: var(--bg-page);
-  border: 1px solid var(--border-1);
-  border-radius: var(--radius-md);
-}
 
 .kpi-strip {
   display: grid;
