@@ -1,0 +1,480 @@
+{
+  "generated_at": "2026-11-09T14:51:21.177258+00:00",
+  "months": 6,
+  "repos": {
+    "anemoi": {
+      "issues": {
+        "ECMWF": 41,
+        "Bots": 5,
+        "Unknown": 1,
+        "METNorway": 2
+      },
+      "pull_requests": {
+        "ECMWF": 19,
+        "Unknown": 1,
+        "CodeAgents": 1,
+        "Bots": 4
+      },
+      "pull_requests_by_type": {
+        "ci": {
+          "ECMWF": 3
+        },
+        "fix": {
+          "ECMWF": 1
+        },
+        "docs": {
+          "ECMWF": 3,
+          "Bots": 1
+        },
+        "test": {
+          "ECMWF": 7
+        },
+        "feat": {
+          "ECMWF": 1
+        },
+        "chore": {
+          "Unknown": 1,
+          "ECMWF": 4,
+          "CodeAgents": 1,
+          "Bots": 3
+        }
+      },
+      "total_reviews": {
+        "ECMWF": 33,
+        "MeteoSwiss": 4,
+        "Unknown": 2
+      },
+      "unique_reviews": {
+        "ECMWF": 27,
+        "MeteoSwiss": 2,
+        "Unknown": 2
+      }
+    },
+    "anemoi-core": {
+      "issues": {
+        "ECMWF": 328,
+        "MeteoFrance": 14,
+        "Unknown": 61,
+        "RMI": 46,
+        "METNorway": 15,
+        "MeteoSwiss": 42,
+        "Bots": 14,
+        "DMI": 3,
+        "BSC": 1,
+        "DWD": 9,
+        "KNMI": 4,
+        "BoM": 3,
+        "CodeAgents": 2,
+        "NOAA": 3,
+        "NVIDIA": 1,
+        "UKMO": 2,
+        "UBC": 1,
+        "LEGMC": 1
+      },
+      "pull_requests": {
+        "Unknown": 33,
+        "ECMWF": 177,
+        "METNorway": 8,
+        "MeteoSwiss": 17,
+        "Bots": 59,
+        "RMI": 22,
+        "DWD": 4,
+        "CodeAgents": 5,
+        "NOAA": 1,
+        "MeteoFrance": 2,
+        "KNMI": 1
+      },
+      "pull_requests_by_type": {
+        "test": {
+          "Unknown": 2,
+          "ECMWF": 7,
+          "Bots": 2
+        },
+        "chore": {
+          "Unknown": 5,
+          "ECMWF": 10,
+          "RMI": 2,
+          "Bots": 10
+        },
+        "fix": {
+          "Unknown": 9,
+          "METNorway": 4,
+          "ECMWF": 82,
+          "Bots": 18,
+          "RMI": 9,
+          "DWD": 3,
+          "MeteoSwiss": 8,
+          "MeteoFrance": 2,
+          "KNMI": 1,
+          "CodeAgents": 2
+        },
+        "feat": {
+          "MeteoSwiss": 5,
+          "ECMWF": 45,
+          "Bots": 20,
+          "Unknown": 13,
+          "RMI": 4,
+          "METNorway": 3,
+          "DWD": 1,
+          "NOAA": 1,
+          "CodeAgents": 2
+        },
+        "docs": {
+          "RMI": 1,
+          "METNorway": 1,
+          "Bots": 3,
+          "Unknown": 2,
+          "ECMWF": 5,
+          "CodeAgents": 1
+        },
+        "other": {
+          "ECMWF": 6,
+          "RMI": 2
+        },
+        "ci": {
+          "Unknown": 1,
+          "ECMWF": 9,
+          "Bots": 1
+        },
+        "perf": {
+          "ECMWF": 9,
+          "RMI": 2,
+          "MeteoSwiss": 4,
+          "Unknown": 1,
+          "Bots": 2
+        },
+        "refactor": {
+          "RMI": 2,
+          "ECMWF": 4,
+          "Bots": 3
+        }
+      },
+      "total_reviews": {
+        "ECMWF": 850,
+        "METNorway": 37,
+        "RMI": 31,
+        "MeteoSwiss": 42,
+        "Unknown": 43,
+        "MeteoFrance": 12,
+        "DWD": 41,
+        "CodeAgents": 20,
+        "KNMI": 1,
+        "GeoSphere": 1,
+        "DMI": 2
+      },
+      "unique_reviews": {
+        "ECMWF": 338,
+        "METNorway": 17,
+        "RMI": 15,
+        "MeteoSwiss": 16,
+        "Unknown": 13,
+        "MeteoFrance": 7,
+        "DWD": 14,
+        "CodeAgents": 19,
+        "KNMI": 1,
+        "GeoSphere": 1,
+        "DMI": 1
+      }
+    },
+    "anemoi-datasets": {
+      "issues": {
+        "Unknown": 27,
+        "ECMWF": 95,
+        "MeteoSwiss": 15,
+        "DWD": 4,
+        "Bots": 34,
+        "MeteoFrance": 4,
+        "BSC": 6,
+        "UKMO": 15,
+        "RMI": 9,
+        "DMI": 1,
+        "GeoSphere": 1,
+        "CodeAgents": 1,
+        "UBC": 3,
+        "METNorway": 2,
+        "Other": 1
+      },
+      "pull_requests": {
+        "Unknown": 20,
+        "ECMWF": 58,
+        "MeteoSwiss": 7,
+        "Bots": 31,
+        "BSC": 2,
+        "DWD": 1,
+        "RMI": 1,
+        "UKMO": 4,
+        "CodeAgents": 4,
+        "METNorway": 1
+      },
+      "pull_requests_by_type": {
+        "ci": {
+          "Unknown": 3,
+          "ECMWF": 3,
+          "Bots": 1
+        },
+        "chore": {
+          "Unknown": 6,
+          "Bots": 15,
+          "ECMWF": 4
+        },
+        "feat": {
+          "MeteoSwiss": 3,
+          "DWD": 1,
+          "Unknown": 5,
+          "ECMWF": 35,
+          "RMI": 1,
+          "Bots": 8,
+          "CodeAgents": 3,
+          "UKMO": 1
+        },
+        "fix": {
+          "BSC": 2,
+          "MeteoSwiss": 2,
+          "Bots": 6,
+          "Unknown": 6,
+          "ECMWF": 14,
+          "UKMO": 3,
+          "METNorway": 1
+        },
+        "perf": {
+          "MeteoSwiss": 1,
+          "ECMWF": 1,
+          "Bots": 1
+        },
+        "docs": {
+          "ECMWF": 1,
+          "CodeAgents": 1
+        },
+        "refactor": {
+          "MeteoSwiss": 1
+        }
+      },
+      "total_reviews": {
+        "ECMWF": 217,
+        "CodeAgents": 3,
+        "Unknown": 12,
+        "BSC": 2,
+        "MeteoSwiss": 9,
+        "RMI": 1,
+        "DWD": 4,
+        "UKMO": 30
+      },
+      "unique_reviews": {
+        "ECMWF": 118,
+        "CodeAgents": 3,
+        "Unknown": 9,
+        "BSC": 2,
+        "MeteoSwiss": 6,
+        "RMI": 1,
+        "DWD": 2,
+        "UKMO": 5
+      }
+    },
+    "anemoi-inference": {
+      "issues": {
+        "Unknown": 22,
+        "ECMWF": 84,
+        "Bots": 26,
+        "MeteoSwiss": 8,
+        "RMI": 9,
+        "BSC": 2,
+        "NOAA": 2,
+        "BoM": 1,
+        "LEGMC": 1,
+        "UKMO": 2
+      },
+      "pull_requests": {
+        "Unknown": 18,
+        "ECMWF": 54,
+        "Bots": 22,
+        "RMI": 4,
+        "BSC": 1,
+        "MeteoSwiss": 2,
+        "CodeAgents": 1
+      },
+      "pull_requests_by_type": {
+        "ci": {
+          "Unknown": 2,
+          "ECMWF": 6
+        },
+        "fix": {
+          "ECMWF": 21,
+          "BSC": 1,
+          "Unknown": 3,
+          "RMI": 1,
+          "Bots": 5
+        },
+        "feat": {
+          "Unknown": 6,
+          "ECMWF": 15,
+          "Bots": 7,
+          "RMI": 2,
+          "CodeAgents": 1,
+          "MeteoSwiss": 1
+        },
+        "chore": {
+          "Unknown": 3,
+          "Bots": 7,
+          "ECMWF": 4
+        },
+        "test": {
+          "RMI": 1,
+          "ECMWF": 2,
+          "Unknown": 2,
+          "MeteoSwiss": 1,
+          "Bots": 1
+        },
+        "refactor": {
+          "ECMWF": 2,
+          "Bots": 1
+        },
+        "docs": {
+          "Unknown": 2,
+          "ECMWF": 1,
+          "Bots": 1
+        },
+        "perf": {
+          "ECMWF": 3
+        }
+      },
+      "total_reviews": {
+        "ECMWF": 195,
+        "MeteoSwiss": 8,
+        "CodeAgents": 6,
+        "RMI": 19,
+        "Unknown": 47,
+        "METNorway": 1
+      },
+      "unique_reviews": {
+        "ECMWF": 106,
+        "MeteoSwiss": 5,
+        "CodeAgents": 6,
+        "RMI": 5,
+        "Unknown": 14,
+        "METNorway": 1
+      }
+    },
+    "anemoi-transform": {
+      "issues": {
+        "Unknown": 8,
+        "ECMWF": 36,
+        "MeteoSwiss": 4,
+        "MeteoFrance": 3,
+        "BSC": 2,
+        "Bots": 28,
+        "METNorway": 2,
+        "CodeAgents": 1,
+        "UKMO": 1
+      },
+      "pull_requests": {
+        "Unknown": 13,
+        "ECMWF": 26,
+        "Bots": 13,
+        "METNorway": 1,
+        "MeteoSwiss": 1,
+        "CodeAgents": 2,
+        "UKMO": 2
+      },
+      "pull_requests_by_type": {
+        "chore": {
+          "Unknown": 7,
+          "Bots": 10,
+          "ECMWF": 6
+        },
+        "ci": {
+          "Unknown": 3,
+          "ECMWF": 3,
+          "Bots": 1
+        },
+        "feat": {
+          "ECMWF": 13,
+          "Unknown": 2,
+          "MeteoSwiss": 1,
+          "Bots": 2,
+          "CodeAgents": 1,
+          "UKMO": 1
+        },
+        "perf": {
+          "Unknown": 1,
+          "METNorway": 1
+        },
+        "fix": {
+          "ECMWF": 3,
+          "CodeAgents": 1
+        },
+        "other": {
+          "UKMO": 1
+        },
+        "refactor": {
+          "ECMWF": 1
+        }
+      },
+      "total_reviews": {
+        "ECMWF": 66,
+        "Unknown": 1,
+        "METNorway": 4,
+        "MeteoSwiss": 3,
+        "UKMO": 3
+      },
+      "unique_reviews": {
+        "ECMWF": 44,
+        "Unknown": 1,
+        "METNorway": 2,
+        "MeteoSwiss": 3,
+        "UKMO": 2
+      }
+    },
+    "anemoi-utils": {
+      "issues": {
+        "Unknown": 12,
+        "ECMWF": 41,
+        "MeteoSwiss": 4,
+        "Bots": 21,
+        "MeteoFrance": 2,
+        "RMI": 2,
+        "UKMO": 2
+      },
+      "pull_requests": {
+        "Unknown": 14,
+        "ECMWF": 27,
+        "Bots": 16,
+        "RMI": 1,
+        "UKMO": 1
+      },
+      "pull_requests_by_type": {
+        "chore": {
+          "Unknown": 9,
+          "Bots": 14,
+          "ECMWF": 4
+        },
+        "ci": {
+          "Unknown": 4,
+          "ECMWF": 4,
+          "Bots": 1
+        },
+        "feat": {
+          "ECMWF": 14,
+          "UKMO": 1,
+          "Bots": 1
+        },
+        "fix": {
+          "Unknown": 1,
+          "RMI": 1,
+          "ECMWF": 5
+        }
+      },
+      "total_reviews": {
+        "ECMWF": 66,
+        "Unknown": 2,
+        "MeteoFrance": 9,
+        "CodeAgents": 1
+      },
+      "unique_reviews": {
+        "ECMWF": 54,
+        "Unknown": 2,
+        "MeteoFrance": 1,
+        "CodeAgents": 1
+      }
+    }
+  }
+}
